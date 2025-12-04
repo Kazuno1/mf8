@@ -1917,6 +1917,57 @@ select {
   font-weight: 600;
 }
 
+/* Pricing Card Gradient Border */
+/* Pricing Card with Strong Running Gradient Border */
+.pricing-card {
+  position: relative;
+  padding: 25px;
+  border-radius: 14px;
+  background: #0b0f1a; /* card background */
+  overflow: hidden;
+  z-index: 1;
+}
+
+/* Strong neon animated gradient border */
+.pricing-card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  padding: 3px; /* border thickness */
+  border-radius: 14px;
+
+  background: linear-gradient(
+      120deg,
+      #00eaff,
+      #007bff,
+      #7a00ff,
+      #00eaff,
+      #007bff
+  );
+
+  background-size: 400% 400%;
+  animation: neonRun 3s linear infinite;
+
+  z-index: -1;
+
+  mask: 
+    linear-gradient(#fff 0 0) content-box, 
+    linear-gradient(#fff 0 0);
+
+  -webkit-mask-composite: xor;
+          mask-composite: exclude;
+}
+
+/* Faster & more obvious animation */
+@keyframes neonRun {
+  0% { background-position: 0% 50%; }
+  25% { background-position: 50% 50%; }
+  50% { background-position: 100% 50%; }
+  75% { background-position: 50% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+
 /* === MOBILE FIXES === */
 
 @media (max-width: 768px) {

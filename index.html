@@ -186,7 +186,7 @@
   </div>
 </section>
 
-  <!-- TRADING OBJECTIVES SECTION --> 
+<!-- TRADING OBJECTIVES SECTION --> 
 <section class="trading-objectives-section" id="trading-objectives">
   <div class="container">
     <h2>Trading Objectives & Challenges</h2>
@@ -204,7 +204,6 @@
 
       <label>Choose Account Size:</label>
       <select id="balanceSelect">
-        <option value="5000">$5,000</option>
         <option value="10000">$10,000</option>
         <option value="25000">$25,000</option>
         <option value="50000">$50,000</option>
@@ -217,54 +216,57 @@
 
     <!-- Challenge Comparison -->
     <div class="challenge-comparison">
+
+      <!-- One-Phase -->
       <div class="challenge-card" id="firststep">
-        <h3>1st Step</h3>
+        <h3>One-Phase (1-Step)</h3>
         <div class="price">--</div>
         <ul>
-          <li>Profit Target: 10%</li>
+          <li>Profit Target: 8%</li>
           <li>Max Daily Loss: 4%</li>
-          <li>Max Overall Loss: 6%</li>
-          <li>Duration: Unlimited</li>
+          <li>Total Loss: 6%</li>
+          <li>Minimum Trading Days: 2</li>
+          <li>Weekend Trading: Yes</li>
+          <li>Leverage: 1:30</li>
           <li>Profit Split: 90%</li>
         </ul>
       </div>
 
+      <!-- Traditional -->
       <div class="challenge-card" id="traditionalObj">
-        <h3>Traditional</h3>
+        <h3>Traditional (2-Step)</h3>
         <div class="price">--</div>
         <ul>
-          <li>Phase 1: 8% | Phase 2: 5%</li>
-          <li>Max Daily Loss: 5%</li>
-          <li>Overall Loss: 8%</li>
-          <li>Duration: Unlimited</li>
+          <li>Phase 1 Target: 8%</li>
+          <li>Phase 2 Target: 5%</li>
+          <li>Max Daily Loss: 4%</li>
+          <li>Total Loss: 8%</li>
+          <li>Minimum Trading Days: 5</li>
+          <li>Weekend Trading: Yes</li>
+          <li>Leverage: 1:30</li>
           <li>Profit Split: 90%</li>
         </ul>
       </div>
 
-      <div class="challenge-card" id="acceleratedObj">
-        <h3>Accelerated</h3>
-        <div class="price">--</div>
-        <ul>
-          <li>Phase 1: 8% | Phase 2: 5%</li>
-          <li>No Consistency Rule</li>
-          <li>Max Daily Loss: 5%</li>
-          <li>Overall Loss: 8%</li>
-          <li>Profit Split: 90%</li>
-        </ul>
-      </div>
-
+      <!-- Instant Funding -->
       <div class="challenge-card" id="instantfunded">
-        <h3>Instant Funded</h3>
+        <h3>Instant Funding</h3>
         <div class="price">--</div>
         <ul>
-          <li>Instant Live Funded</li>
-          <li>Max Drawdown: -5%</li>
-          <li>Leverage: 1:10</li>
+          <li>No Evaluation Required</li>
+          <li>Max Daily Loss: 4%</li>
+          <li>Total Loss: 6%</li>
+          <li>Minimum Trading Days: 5</li>
+          <li>Weekend Trading: Yes</li>
+          <li>Leverage: 1:30</li>
+          <li>Profit Split: 90%</li>
         </ul>
       </div>
+
     </div>
   </div>
 </section>
+
 
  <!-- EVALUATION PROCESS SECTION -->
 <section id="evaluation-process" class="evaluation">
@@ -519,45 +521,6 @@ document.querySelectorAll(".pricing-tabs .tab").forEach(tab => {
     });
   });
 
-  document.addEventListener("DOMContentLoaded", () => {
-
-    const currencySelect = document.getElementById("currencySelect");
-    const balanceSelect = document.getElementById("balanceSelect");
-
-    const accountSizes = [5000, 10000, 25000, 50000, 100000, 200000, 300000, 500000];
-
-    const currencyFormat = {
-        USD: { symbol: "$", rate: 1 },
-        EUR: { symbol: "€", rate: 0.92 },
-        CAD: { symbol: "CAD ", rate: 1.36 },
-        YEN: { symbol: "¥", rate: 152.4 }
-    };
-
-    function updateAccountSizeLabels() {
-        const chosenCurrency = currencySelect.value;
-        const settings = currencyFormat[chosenCurrency];
-
-        balanceSelect.innerHTML = ""; // clear dropdown
-
-        accountSizes.forEach(size => {
-            let converted = Math.round(size * settings.rate).toLocaleString();
-            let option = document.createElement("option");
-
-            option.value = size;   // internal USD value stays same
-            option.textContent = settings.symbol + converted;
-
-            balanceSelect.appendChild(option);
-        });
-    }
-
-    // On load
-    updateAccountSizeLabels();
-
-    // When currency changes
-    currencySelect.addEventListener("change", updateAccountSizeLabels);
-});
-
-  
 </script>
 <!-- === SCRIPT === -->
 <script>
@@ -606,6 +569,69 @@ document.addEventListener("DOMContentLoaded", () => {
   document.getElementById("currencySelect").addEventListener("change", updatePrices);
   document.getElementById("balanceSelect").addEventListener("change", updatePrices);
 
+  updatePrices();
+});
+</script>
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+
+  /* NEW PRICING DATA (Based on your Sheet) */
+  const pricingData = {
+    "1st Step": {
+      10000:109, 25000:219, 50000:399, 100000:669, 200000:1119, 300000:1599, 500000:2599
+    },
+    "Traditional": {
+      10000:89, 25000:199, 50000:299, 100000:459, 200000:899, 300000:1299, 500000:2199
+    },
+    "Instant Funded": {
+      10000:259, 25000:499, 50000:799, 100000:1299, 200000:2222, 300000:3899, 500000:4849
+    }
+  };
+
+  /* Updated ID map (Accelerated removed) */
+  const idMap = {
+    "1st Step": "firststep",
+    "Traditional": "traditionalObj",
+    "Instant Funded": "instantfunded"
+  };
+
+  /* Currency conversion rates */
+  const rates = {
+    USD: 1,
+    EUR: 0.92,
+    YEN: 152.4,
+    CAD: 1.36
+  };
+
+  function updatePrices() {
+    const currency = document.getElementById("currencySelect").value;
+    const balance = parseInt(document.getElementById("balanceSelect").value);
+    const rate = rates[currency];
+
+    for (const type in pricingData) {
+      const amount = pricingData[type][balance];
+      const converted = amount ? (amount * rate).toFixed(2) : "-";
+
+      const card = document.getElementById(idMap[type]);
+      if (card) {
+        const priceEl = card.querySelector(".price");
+
+        // Fade-out → Update → Fade-in
+        priceEl.style.opacity = "0";
+
+        setTimeout(() => {
+          priceEl.textContent = amount ? `${currency} ${converted}` : "N/A";
+          priceEl.style.opacity = "1";
+        }, 150);
+      }
+    }
+  }
+
+  // Trigger updates when selectors change
+  document.getElementById("currencySelect").addEventListener("change", updatePrices);
+  document.getElementById("balanceSelect").addEventListener("change", updatePrices);
+
+  // Initial load
   updatePrices();
 });
 </script>

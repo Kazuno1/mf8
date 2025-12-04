@@ -349,6 +349,57 @@ select {
   margin-bottom: 6px;
   color: rgba(255,255,255,0.9);
 }
+
+/* TRADING OBJECTIVE CARD — Neon Running Gradient Border */
+.challenge-card {
+  position: relative;
+  padding: 25px;
+  border-radius: 14px;
+  background: #0b0f1a;
+  overflow: hidden;
+  z-index: 1;
+  color: #fff;
+}
+
+/* Animated gradient border */
+.challenge-card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  padding: 3px; /* border thickness */
+  border-radius: 14px;
+
+  background: linear-gradient(
+      120deg,
+      #00eaff,
+      #007bff,
+      #7a00ff,
+      #00eaff,
+      #007bff
+  );
+
+  background-size: 400% 400%;
+  animation: objectivesNeonRun 3s linear infinite;
+
+  z-index: -1;
+
+  mask:
+    linear-gradient(#fff 0 0) content-box,
+    linear-gradient(#fff 0 0);
+
+  -webkit-mask-composite: xor;
+          mask-composite: exclude;
+}
+
+/* Animate border */
+@keyframes objectivesNeonRun {
+  0% { background-position: 0% 50%; }
+  25% { background-position: 50% 50%; }
+  50% { background-position: 100% 50%; }
+  75% { background-position: 50% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
 /* --- TERMS ACCORDION STYLE --- */
 .trading-section.terms {
   background: #02070f;
@@ -830,7 +881,7 @@ select {
 .eval-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-  gap: 28px;
+  gap: 40px;
   padding: 0 50px;
   justify-content: center;
 }
@@ -2235,4 +2286,56 @@ select {
     .has-dropdown > a::after {
         display: none !important;
     }
+}
+/* === Neon Gradient Effect for Step Cards & Evaluation Cards === */
+.step-card,
+.eval-card {
+  position: relative;
+  padding: 25px;
+  border-radius: 14px;
+  background: #0b0f1a; /* Dark card background */
+  overflow: hidden;
+  z-index: 1;
+  color: #fff;
+}
+
+/* Animated Neon Gradient Border */
+.step-card::before,
+.eval-card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  padding: 3px; /* Border thickness */
+  border-radius: 14px;
+
+  background: linear-gradient(
+      120deg,
+      #00eaff,
+      #007bff,
+      #7a00ff,
+      #00eaff,
+      #007bff
+  );
+
+  background-size: 400% 400%;
+  animation: neonRunSteps 3s linear infinite;
+
+  z-index: -1;
+
+  /* Punch out the center so only border shows */
+  mask:
+    linear-gradient(#fff 0 0) content-box,
+    linear-gradient(#fff 0 0);
+
+  -webkit-mask-composite: xor;
+          mask-composite: exclude;
+}
+
+/* Animation */
+@keyframes neonRunSteps {
+  0% { background-position: 0% 50%; }
+  25% { background-position: 50% 50%; }
+  50% { background-position: 100% 50%; }
+  75% { background-position: 50% 50%; }
+  100% { background-position: 0% 50%; }
 }
